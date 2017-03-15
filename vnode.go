@@ -77,6 +77,7 @@ func (vn *localVnode) stabilize() {
 
 	// Check the predecessor
 	if err := vn.checkPredecessor(); err != nil {
+		vn.predecessor = nil
 		log.Printf("[ERR] Error checking predecessor: %s", err)
 	}
 

@@ -651,6 +651,7 @@ func (t *TCPTransport) handleConn(conn *net.TCPConn) {
 	header := tcpHeader{}
 	var sendResp interface{}
 	for {
+		header.ReqType = 0
 		// Get the header
 		if err := dec.Decode(&header); err != nil {
 			if atomic.LoadInt32(&t.shutdown) == 0 && err.Error() != "EOF" {
