@@ -153,8 +153,9 @@ func (vn *localVnode) notifySuccessor() error {
 		succ_list = succ_list[:max_succ-1]
 	}
 
+	var idx int
 	// Update local successors list
-	for idx, s := range succ_list {
+	for _, s := range succ_list {
 		if s == nil {
 			break
 		}
@@ -162,8 +163,13 @@ func (vn *localVnode) notifySuccessor() error {
 		if s == nil || s.String() == vn.String() {
 			break
 		}
+		if ok, err := vn.ring.transport.Ping(s); !ok || err != nil {
+			continue
+		}
 		vn.successors[idx+1] = s
+		idx++
 	}
+
 	return nil
 }
 
